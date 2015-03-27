@@ -1,6 +1,7 @@
 package com.stardust.rpgtest2.gfx.tilemaps;
 
 import com.stardust.rpgtest2.Game;
+import com.stardust.rpgtest2.StateEngine;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -9,8 +10,9 @@ import java.io.IOException;
 
 public class TileMap 
 {
-    int posX, posY, mapSizeX, mapSizeY; 
+    public int posX, posY, mapSizeX, mapSizeY; 
     public String filename;
+    public final int TILESIZE = 32;
     
     public int[][] tilemap;
     
@@ -20,8 +22,8 @@ public class TileMap
         tilemap = new int[mapSize][mapSize];
         this.posX = posX;
         this.posY = posY;
-        this.mapSizeX = mapSize;
-        this.mapSizeY = mapSize;
+        this.mapSizeX = mapSize * TILESIZE;
+        this.mapSizeY = mapSize * TILESIZE;
         this.filename = filename;
     }
     
@@ -37,13 +39,29 @@ public class TileMap
                 
                 BufferedImage texture =  Tile.getTileImage(textureType);
                 g.drawImage(texture, posX, posY, null);
-                posY += 32;
+                posY += TILESIZE;
             }
-            posX += 32;
-            posY = Game.mapY;
+            posX += TILESIZE;
+            if(Game.stateEngine.state == StateEngine.State.STATE_TOWN)
+            {
+                posY = Game.mapY;
+            }
+            if(Game.stateEngine.state == StateEngine.State.STATE_WORLD)
+            {
+                posY = Game.wMapY;
+            }
+            
         }
-        posX = Game.mapX;
-        posY = Game.mapY;
+        if(Game.stateEngine.state == StateEngine.State.STATE_TOWN)
+            {
+                posY = Game.mapY;
+                posX = Game.mapX;
+            }
+            if(Game.stateEngine.state == StateEngine.State.STATE_WORLD)
+            {
+                posY = Game.wMapY;
+                posX = Game.wMapX;
+            }
     }
     
     public void fileParser() throws IOException

@@ -4,6 +4,7 @@ import com.stardust.rpgtest2.Entities.Player;
 import com.stardust.rpgtest2.gfx.Assets;
 import com.stardust.rpgtest2.gfx.tilemaps.TileMap;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -15,15 +16,16 @@ public class Game extends Canvas implements Runnable
     public boolean debug;
     public String title = "RPGTest2";
     
-    public static final int WIDTH = 300, HEIGHT = 300, SCALE = 2;
+    public static final int WIDTH = 320, HEIGHT = 320, SCALE = 2;
     public static boolean running = false;
     public Thread gameThread;
     public static JFrame frame;
         
-    public StateEngine stateEngine;
+    public static StateEngine stateEngine;
     public Assets assets;
-    //public static TileMaker tileMaker;
     public Input input;
+    public Movement move;
+    
     public static TileMap twnLyr1;
     public static TileMap twnLyr2;
     public static TileMap twnLyr3;
@@ -49,6 +51,7 @@ public class Game extends Canvas implements Runnable
         player = new Player(WIDTH - 32, HEIGHT - 32, 32, 32);
                 
         input = new Input();
+        move = new Movement();
         
         this.addKeyListener(input);
         
@@ -122,7 +125,9 @@ public class Game extends Canvas implements Runnable
     
     public void update()
     {
+        
         player.update();
+        move.update();
         if(Input.x)
         {
             debug = true;
@@ -140,6 +145,7 @@ public class Game extends Canvas implements Runnable
         }
         Graphics g = bs.getDrawGraphics();
         //START RENDER
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
         switch(stateEngine.state)
         {

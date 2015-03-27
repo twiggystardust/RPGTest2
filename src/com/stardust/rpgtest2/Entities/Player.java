@@ -7,7 +7,7 @@ public class Player extends Entity
 {
     public int lastLook = 3;
     public int anim = 0;
-    public boolean walking;
+    public static boolean walking;
     
     public Player(int x, int y, int sizeX, int sizeY)
     {

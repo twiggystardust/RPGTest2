@@ -26,7 +26,7 @@ public class StateEngine
     
     public StateEngine()
     {
-        state = State.STATE_TOWN;
+        state = State.STATE_WORLD;
         menuState = menuState.CLOSED;
     }
 }
